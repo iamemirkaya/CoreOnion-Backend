@@ -1,4 +1,8 @@
-﻿using MediatR;
+﻿using CoreOnion_Backend.Application.Bases;
+using CoreOnion_Backend.Application.Beheviors;
+using CoreOnion_Backend.Application.Exceptions;
+using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
@@ -17,10 +21,31 @@ namespace CoreOnion_Backend.Application
         {
             var assembly = Assembly.GetExecutingAssembly();
 
+            services.AddTransient<ExceptionMiddleware>();
 
+            services.AddRulesFromAssemblyContaining(assembly, typeof(BaseRules));
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
 
+            services.AddValidatorsFromAssembly(assembly);
+            ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("tr");
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehevior<,>));
+
+
+
+        }
+
+        private static IServiceCollection AddRulesFromAssemblyContaining(
+            this IServiceCollection services,
+            Assembly assembly,
+            Type type)
+        {
+            var types = assembly.GetTypes().Where(t => t.IsSubclassOf(type) && type != t).ToList();
+            foreach (var item in types)
+                services.AddTransient(item);
+
+            return services;
         }
     }
 }
