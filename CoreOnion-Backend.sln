@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreOnion-Backend.Persisten
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreOnion-Backend.Api", "CoreOnion-Backend.Api\CoreOnion-Backend.Api.csproj", "{C8EED5EB-4CAE-4AA2-8F70-C18969C07ABE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreOnion-Backend.Mapper", "CoreOnion-Backend.Mapper\CoreOnion-Backend.Mapper.csproj", "{0527257E-3D62-4F17-8EB6-01055B7B6F0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{C8EED5EB-4CAE-4AA2-8F70-C18969C07ABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8EED5EB-4CAE-4AA2-8F70-C18969C07ABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8EED5EB-4CAE-4AA2-8F70-C18969C07ABE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0527257E-3D62-4F17-8EB6-01055B7B6F0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0527257E-3D62-4F17-8EB6-01055B7B6F0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0527257E-3D62-4F17-8EB6-01055B7B6F0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0527257E-3D62-4F17-8EB6-01055B7B6F0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{49C9ACDD-14CB-4FCD-AE03-AC956DDE46CE} = {7401E340-C405-4106-B998-3B4316F4702E}
 		{518FAB2D-455F-4CAD-A99A-C8B5E5C4F881} = {7401E340-C405-4106-B998-3B4316F4702E}
 		{C8EED5EB-4CAE-4AA2-8F70-C18969C07ABE} = {7D44B835-64A1-4163-90F6-B6195AF771C1}
+		{0527257E-3D62-4F17-8EB6-01055B7B6F0B} = {1949962E-DFCF-470E-969A-EAB039AF21C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A61D382D-0512-4E3B-94F4-76EFB885EB09}

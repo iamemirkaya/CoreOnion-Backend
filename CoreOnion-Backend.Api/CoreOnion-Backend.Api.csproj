@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CoreOnion-Backend.Mapper\CoreOnion-Backend.Mapper.csproj" />
     <ProjectReference Include="..\CoreOnion-Backend.Persistence\CoreOnion-Backend.Persistence.csproj" />
   </ItemGroup>
 

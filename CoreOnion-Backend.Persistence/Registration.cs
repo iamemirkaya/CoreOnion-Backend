@@ -1,6 +1,8 @@
 ﻿using CoreOnion_Backend.Application.Interfaces.Repositories;
+using CoreOnion_Backend.Application.Interfaces.UnitOfWorks;
 using CoreOnion_Backend.Persistence.Context;
 using CoreOnion_Backend.Persistence.Repositories;
+using CoreOnion_Backend.Persistence.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,8 @@ namespace CoreOnion_Backend.Persistence
 
             services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
             services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
         }
