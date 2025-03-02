@@ -1,4 +1,6 @@
-﻿using CoreOnion_Backend.Application.Interfaces.Tokens;
+﻿using CoreOnion_Backend.Application.Interfaces.RedisCache;
+using CoreOnion_Backend.Application.Interfaces.Tokens;
+using CoreOnion_Backend.Infrastructure.RedisCache;
 using CoreOnion_Backend.Infrastructure.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +21,8 @@ namespace CoreOnion_Backend.Infrastructure
             services.Configure<TokenSettings>(configuration.GetSection("JWT"));
             services.AddTransient<ITokenService, TokenService>();
 
+            services.Configure<RedisCacheSettings>(configuration.GetSection("RedisCacheSettings"));
+            services.AddTransient<IRedisCacheService, RedisCacheService>();
 
             services.AddAuthentication(opt =>
             {
@@ -38,6 +42,12 @@ namespace CoreOnion_Backend.Infrastructure
                     ValidAudience = configuration["JWT:Audience"],
                     ClockSkew = TimeSpan.Zero
                 };
+            });
+
+            services.AddStackExchangeRedisCache(opt =>
+            {
+                opt.Configuration = configuration["RedisCacheSettings:ConnectionString"];
+                opt.InstanceName = configuration["RedisCacheSettings:InstanceName"];
             });
         }
     }
