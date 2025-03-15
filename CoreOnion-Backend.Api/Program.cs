@@ -4,6 +4,9 @@ using CoreOnion_Backend.Application;
 using CoreOnion_Backend.Application.Exceptions;
 using CoreOnion_Backend.Infrastructure;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +29,28 @@ builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddCustomMapper();
+
+var sinkOptions = new MSSqlServerSinkOptions
+{
+    TableName = "logs",
+    AutoCreateSqlTable = true
+};
+
+var columnOptions = new ColumnOptions();
+
+var logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log.txt")
+    .WriteTo.MSSqlServer(
+        connectionString: builder.Configuration.GetConnectionString("DefaultConnection"),
+        sinkOptions: sinkOptions,
+        columnOptions: columnOptions,   // opsiyonel
+        restrictedToMinimumLevel: LogEventLevel.Information // opsiyonel
+    )
+    .CreateLogger();
+
+builder.Host.UseSerilog(logger);
+
 
 builder.Services.AddSwaggerGen(c =>
 {

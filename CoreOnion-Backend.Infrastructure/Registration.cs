@@ -1,6 +1,8 @@
-﻿using CoreOnion_Backend.Application.Interfaces.RedisCache;
+﻿using CoreOnion_Backend.Application.Interfaces.MailService;
+using CoreOnion_Backend.Application.Interfaces.RedisCache;
 using CoreOnion_Backend.Application.Interfaces.Tokens;
 using CoreOnion_Backend.Infrastructure.RedisCache;
+using CoreOnion_Backend.Infrastructure.Services;
 using CoreOnion_Backend.Infrastructure.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +22,7 @@ namespace CoreOnion_Backend.Infrastructure
         {
             services.Configure<TokenSettings>(configuration.GetSection("JWT"));
             services.AddTransient<ITokenService, TokenService>();
-
+            services.AddScoped<IMailService, MailService>();
             services.Configure<RedisCacheSettings>(configuration.GetSection("RedisCacheSettings"));
             services.AddTransient<IRedisCacheService, RedisCacheService>();
 
