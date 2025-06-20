@@ -1,6 +1,7 @@
-﻿using CoreOnion_Backend.Application.Helpers;
+﻿using CoreOnion_Backend.Application.DTOs;
+using CoreOnion_Backend.Application.Helpers;
 using CoreOnion_Backend.Application.Interfaces.AuthService;
-using CoreOnion_Backend.Application.Interfaces.MailService;
+using CoreOnion_Backend.Application.Interfaces.RabbitMQServices;
 using CoreOnion_Backend.Application.Interfaces.UserInterfaces;
 using CoreOnion_Backend.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -15,13 +16,13 @@ namespace CoreOnion_Backend.Persistence.Services
 {
     public class AuthService : IAuthService
     {
-        readonly IMailService _mailService;
+        private readonly IRabbitMQService _rabbitMQService;
         private readonly IUserReadRepository _userReadRepository;
         private readonly UserManager<User> _userManager;
 
-        public AuthService(IMailService mailService, IUserReadRepository userReadRepository, UserManager<User> userManager)
+        public AuthService(IRabbitMQService rabbitMQService, IUserReadRepository userReadRepository, UserManager<User> userManager)
         {
-            _mailService = mailService;
+            _rabbitMQService = rabbitMQService;
             _userReadRepository = userReadRepository;
             _userManager = userManager;
         }
@@ -35,7 +36,14 @@ namespace CoreOnion_Backend.Persistence.Services
             resetToken = resetToken.UrlEncode();
 
 
-            await _mailService.SendPasswordResetMailAsync(email, user.Id.ToString(), resetToken);
+            var passwordResetMessage = new PasswordResetMailDto
+            {
+                Email = email,
+                UserId = user.Id.ToString(),
+                ResetToken = resetToken
+            };
+
+            _rabbitMQService.SendMessage(passwordResetMessage);
         }
 
         public async Task<bool> VerifyResetTokenAsync(string resetToken, string userId)

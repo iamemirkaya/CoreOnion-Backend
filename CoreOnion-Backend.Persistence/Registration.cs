@@ -1,18 +1,19 @@
-﻿using CoreOnion_Backend.Application.Interfaces.Repositories;
+﻿using CoreOnion_Backend.Application.Interfaces.AuthService;
+using CoreOnion_Backend.Application.Interfaces.Repositories;
 using CoreOnion_Backend.Application.Interfaces.UnitOfWorks;
+using CoreOnion_Backend.Application.Interfaces.UserInterfaces;
 using CoreOnion_Backend.Domain.Entities;
 using CoreOnion_Backend.Persistence.Context;
 using CoreOnion_Backend.Persistence.Repositories;
+using CoreOnion_Backend.Persistence.Repositories.UserRepositories;
+using CoreOnion_Backend.Persistence.Services;
 using CoreOnion_Backend.Persistence.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+
+
 
 namespace CoreOnion_Backend.Persistence
 {
@@ -27,6 +28,9 @@ namespace CoreOnion_Backend.Persistence
             services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserWriteRepository, UserWriteRepository>();
+            services.AddScoped<IUserReadRepository, UserReadRepository>();
 
             services.AddIdentityCore<User>(opt =>
             {
@@ -38,7 +42,8 @@ namespace CoreOnion_Backend.Persistence
                 opt.SignIn.RequireConfirmedEmail = false;
             })
                 .AddRoles<Role>()
-                .AddEntityFrameworkStores<AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
 
 
