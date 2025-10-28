@@ -30,5 +30,18 @@ namespace CoreOnion_Backend.Persistence.Repositories.UserRepositories
                     throw new PasswordChangeFailedException();
             }
         }
+
+        public async Task AssignRoleToUserAsnyc(Guid userId, string[] roles)
+        {
+            User user = await _userManager.FindByIdAsync(userId.ToString());
+
+            if (user != null)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, userRoles);
+
+                await _userManager.AddToRolesAsync(user, roles);
+            }
+        }
     }
 }

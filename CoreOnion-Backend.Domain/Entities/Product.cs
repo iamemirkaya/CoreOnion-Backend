@@ -14,7 +14,7 @@ namespace CoreOnion_Backend.Domain.Entities
 
         }
 
-        public Product(string title, string description, int brandId, decimal price, decimal discount)
+        public Product(string title, string description, Guid brandId, decimal price, decimal discount)
         {
             Title = title;
             Description = description;
@@ -24,7 +24,7 @@ namespace CoreOnion_Backend.Domain.Entities
         }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int BrandId { get; set; }
+        public Guid BrandId { get; set; }
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
 

@@ -13,13 +13,13 @@ namespace CoreOnion_Backend.Domain.Entities
         {
 
         }
-        public Category(int parentId, string name, int priorty)
+        public Category(Guid parentId, string name, int priorty)
         {
             ParentId = parentId;
             Name = name;
             Priorty = priorty;
         }
-        public int ParentId { get; set; }
+        public Guid ParentId { get; set; }
         public string Name { get; set; }
         public int Priorty { get; set; }
         public ICollection<Detail> Details { get; set; }

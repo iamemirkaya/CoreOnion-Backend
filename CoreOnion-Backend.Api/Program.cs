@@ -1,18 +1,22 @@
-﻿using CoreOnion_Backend.Persistence;
-using CoreOnion_Backend.Mapper;
+﻿using CoreOnion_Backend.Api.Filters;
 using CoreOnion_Backend.Application;
 using CoreOnion_Backend.Application.Exceptions;
 using CoreOnion_Backend.Infrastructure;
+using CoreOnion_Backend.Mapper;
+using CoreOnion_Backend.Persistence;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using Serilog.Sinks.MSSqlServer;
 using Serilog.Events;
+using Serilog.Sinks.MSSqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<RolePermissionFilter>(); 
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
@@ -29,6 +33,7 @@ builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddCustomMapper();
+builder.Services.AddScoped<RolePermissionFilter>();
 
 var sinkOptions = new MSSqlServerSinkOptions
 {

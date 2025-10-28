@@ -24,6 +24,9 @@ namespace CoreOnion_Backend.Persistence.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
 
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Endpoint> Endpoints { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

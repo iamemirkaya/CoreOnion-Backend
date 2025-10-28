@@ -9,5 +9,6 @@ namespace CoreOnion_Backend.Domain.Entities
 {
     public class Role : IdentityRole<Guid>
     {
+        public ICollection<Endpoint> Endpoints { get; set; }
     }
 }

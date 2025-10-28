@@ -10,5 +10,7 @@ namespace CoreOnion_Backend.Application.Interfaces.UserInterfaces
     public interface IUserWriteRepository
     {
         Task UpdatePasswordAsync(string userId, string resetToken, string newPassword);
+
+        Task AssignRoleToUserAsnyc(Guid userId, string[] roles);
     }
 }

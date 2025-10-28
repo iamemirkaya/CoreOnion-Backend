@@ -1,4 +1,5 @@
-﻿using CoreOnion_Backend.Application.Interfaces.MailService;
+﻿using CoreOnion_Backend.Application.Interfaces.Configurations;
+using CoreOnion_Backend.Application.Interfaces.MailService;
 using CoreOnion_Backend.Application.Interfaces.RabbitMQServices;
 using CoreOnion_Backend.Application.Interfaces.RedisCache;
 using CoreOnion_Backend.Application.Interfaces.Tokens;
@@ -27,6 +28,7 @@ namespace CoreOnion_Backend.Infrastructure
             services.Configure<RedisCacheSettings>(configuration.GetSection("RedisCacheSettings"));
             services.AddTransient<IRedisCacheService, RedisCacheService>();
             services.AddSingleton<IRabbitMQService, RabbitMQService>();
+            services.AddScoped<IApplicationService, ApplicationService>();
 
             services.AddAuthentication(opt =>
             {

@@ -1,5 +1,8 @@
-﻿using CoreOnion_Backend.Application.Features.Products.Command.CreateProduct;
+﻿using CoreOnion_Backend.Application.Consts;
+using CoreOnion_Backend.Application.CustomAttributes;
+using CoreOnion_Backend.Application.Features.Products.Command.CreateProduct;
 using CoreOnion_Backend.Application.Features.Products.Queries.GetAllProducts;
+using CoreOnion_Backend.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
@@ -10,6 +13,7 @@ namespace CoreOnion_Backend.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "User")]
     public class ProductController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -20,6 +24,7 @@ namespace CoreOnion_Backend.Api.Controllers
         }
 
         [HttpGet]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Get All Product")]
         public async Task<IActionResult> GetAllProducts()
         {
             var response = await mediator.Send(new GetAllProductsQueryRequest());
@@ -28,6 +33,7 @@ namespace CoreOnion_Backend.Api.Controllers
         }
 
         [HttpPost]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Writing, Definition = "Create Product")]
         public async Task<IActionResult> CreateProduct(CreateProductCommandRequest request)
         {
             await mediator.Send(request);

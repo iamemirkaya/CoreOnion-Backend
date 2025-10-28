@@ -20,7 +20,9 @@ namespace CoreOnion_Backend.Persistence.Repositories
             this.dbContext = dbContext;
         }
 
-        private DbSet<T> Table { get => dbContext.Set<T>(); }
+        public DbSet<T> Table { get => dbContext.Set<T>(); }
+
+        IQueryable<T> IReadRepository<T>.Table => Table;
 
         public async Task<IList<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, bool enableTracking = false)
         {
@@ -52,8 +54,6 @@ namespace CoreOnion_Backend.Persistence.Repositories
             if (!enableTracking) queryable = queryable.AsNoTracking();
             if (include is not null) queryable = include(queryable);
 
-            //queryable.Where(predicate);
-
             return await queryable.FirstOrDefaultAsync(predicate);
         }
 
@@ -70,5 +70,7 @@ namespace CoreOnion_Backend.Persistence.Repositories
             if (!enableTracking) Table.AsNoTracking();
             return Table.Where(predicate);
         }
+
+
     }
 }

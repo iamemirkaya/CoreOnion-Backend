@@ -1,17 +1,22 @@
 ﻿using CoreOnion_Backend.Application.Interfaces.AuthService;
+using CoreOnion_Backend.Application.Interfaces.EndpointInterfaces;
+using CoreOnion_Backend.Application.Interfaces.IAuthorizationServices;
 using CoreOnion_Backend.Application.Interfaces.Repositories;
+using CoreOnion_Backend.Application.Interfaces.RoleServices;
 using CoreOnion_Backend.Application.Interfaces.UnitOfWorks;
 using CoreOnion_Backend.Application.Interfaces.UserInterfaces;
 using CoreOnion_Backend.Domain.Entities;
 using CoreOnion_Backend.Persistence.Context;
 using CoreOnion_Backend.Persistence.Repositories;
+using CoreOnion_Backend.Persistence.Repositories.Endpoint;
 using CoreOnion_Backend.Persistence.Repositories.UserRepositories;
 using CoreOnion_Backend.Persistence.Services;
 using CoreOnion_Backend.Persistence.UnitOfWorks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Identity;
 
 
 
@@ -31,6 +36,9 @@ namespace CoreOnion_Backend.Persistence
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserWriteRepository, UserWriteRepository>();
             services.AddScoped<IUserReadRepository, UserReadRepository>();
+            services.AddScoped<IEndpointReadRepository, EndpointReadRepository>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IAuthorizationEndpointService, AuthorizationEndpointService>();
 
             services.AddIdentityCore<User>(opt =>
             {

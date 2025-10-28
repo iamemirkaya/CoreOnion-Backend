@@ -34,14 +34,18 @@ namespace CoreOnion_Backend.Test.Features.Products.Command
         public async Task Handle_ValidRequest_ShouldCreateProductAndReturnUnitValue()
         {
 
+            var brandIdGuid = Guid.NewGuid();
+            var categoryId1 = Guid.NewGuid();
+            var categoryId2 = Guid.NewGuid();
+
             var command = new CreateProductCommandRequest
             {
                 Title = "Yeni Test Ürünü",
                 Description = "Bu bir test ürünüdür.",
-                BrandId = 1,
+                BrandId = brandIdGuid, 
                 Price = 150,
                 Discount = 10,
-                CategoryIds = new List<int> { 1, 2 }
+                CategoryIds = new List<Guid> { categoryId1, categoryId2 } 
             };
 
             _productReadRepositoryMock
@@ -64,17 +68,20 @@ namespace CoreOnion_Backend.Test.Features.Products.Command
         [Fact]
         public async Task Handle_ExistingProductTitle_ShouldThrowException()
         {
+            var brandIdGuid = Guid.NewGuid();
+            var categoryId3 = Guid.NewGuid();
+
             var command = new CreateProductCommandRequest
             {
                 Title = "Mevcut Ürün Başlığı",
                 Description = "Bu ürün zaten var.",
-                BrandId = 2,
+                BrandId = brandIdGuid, 
                 Price = 200,
                 Discount = 0,
-                CategoryIds = new List<int> { 3 }
+                CategoryIds = new List<Guid> { categoryId3 } 
             };
 
-            var existingProduct = new Product(command.Title, "Açıklama", 2, 200, 0);
+            var existingProduct = new Product(command.Title, "Açıklama", brandIdGuid, 200, 0);
             _productReadRepositoryMock
                 .Setup(r => r.GetAllAsync(null, null, null, false))
                 .ReturnsAsync(new List<Product> { existingProduct });

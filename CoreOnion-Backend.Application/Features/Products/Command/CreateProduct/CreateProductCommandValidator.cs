@@ -19,10 +19,6 @@ namespace CoreOnion_Backend.Application.Features.Products.Command.CreateProduct
                 .NotEmpty()
                 .WithName("Açıklama");
 
-            RuleFor(x => x.BrandId)
-                .GreaterThan(0)
-                .WithName("Marka");
-
             RuleFor(x => x.Price)
                 .GreaterThan(0)
                 .WithName("Fiyat");
